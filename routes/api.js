@@ -41,8 +41,24 @@ router.post("/recipes", (req, res) => {
     res.json();
 });
 
-router.put("/recipes", (req,res) => {
-
+router.put("/recipes", (req, res) => {
+    let data = {recipes: database.recipes};
+    if(data.recipes.some((recipe)=> recipe.name === req.body.name)){
+        const index = data.recipes.findIndex(recipe => recipe.name === req.body.name);
+        data.recipes.splice(index, 1,
+        {
+            name: req.body.name,
+            ingredients: req.body.ingredients,
+            instructions: req.body.instructions
+        });
+        writeFile('data.json', JSON.stringify(data), (err) => {
+            if(err) throw err;
+            console.log('File saved!');
+        })
+        res.json();
+        return;
+    } 
+    res.json({"error": "Recipe does not exist"});
 });
 
 module.exports = router;
