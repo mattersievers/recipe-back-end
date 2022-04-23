@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { writeFile } = require("fs");
 const database = require('../data.json');
 
 router.get("/recipes", (req,res) => {
@@ -17,6 +18,31 @@ router.get("/recipes/details/:name", (req, res) => {
         };
     })    
     res.json(data);
+});
+
+router.post("/recipes", (req, res) => {
+    let data = {recipes: database.recipes};
+    if(data.recipes.some((recipe)=> recipe.name === req.body.name)){
+        res.json({
+            "error": "Recipe already exists"
+        })
+        return;
+    }
+    data.recipes.push({
+        name: req.body.name,
+        ingredients: req.body.ingredients,
+        instructions: req.body.instructions
+    })
+
+    writeFile('data.json', JSON.stringify(data), (err) => {
+        if(err) throw err;
+        console.log('File saved!');
+    })
+    res.json();
+});
+
+router.put("/recipes", (req,res) => {
+
 });
 
 module.exports = router;
