@@ -1,0 +1,27 @@
+{
+  "name": "recipe-back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "apollo-server-express": "^3.6.7",
+    "express": "^4.17.3",
+    "mocha": "^9.2.2",
+    "mongoose": "^6.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattersievers/recipe-back-end.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattersievers/recipe-back-end/issues"
+  },
+  "homepage": "https://github.com/mattersievers/recipe-back-end#readme"
+}
