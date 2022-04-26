@@ -4,11 +4,13 @@ const resolvers = {
     Query:{
         recipeNames: async () => {
             return Recipe.find()
-            .select('-__v -instructions -ingredients')
+            .select('-__v -_id -instructions -ingredients')
             .populate('name');
         },
-        recipeDetails: async (parent, args, context) => {
-
+        recipeDetails: async (parent, {name}) => {
+            const recipeData = Recipe.findOne({ name: name})
+            .select('-__v -_id -name')
+            .populate('ingredients instructions');
         }
     },
     Mutation:{
