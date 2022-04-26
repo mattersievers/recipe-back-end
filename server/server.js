@@ -3,14 +3,27 @@ const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 
 const { typeDefs, resolvers } = require('./schemas')
-const PORT = process.env.PORT || 3000;
+const db = require('./config/connection');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static("public"));
-app.use(require("./routes/api.js"));
-app.listen(PORT, () => {
-    console.log(`App running on port ${PORT}`);
+const server = new ApolloServer({
+    typeDefs,
+    resolvers
 });
+
+server.start().then( res => {
+    server.applyMiddleware({ app });
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
+    
+    app.use(require("./routes/api.js"));
+    
+    db.once('open', () => {
+        app.listen(PORT, () => console.log(`Now listening on localhost:${PORT}`));
+    });
+      
+})
+
+

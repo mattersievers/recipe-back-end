@@ -7,14 +7,18 @@ const recipeSchema = new Schema(
             required: true,
             unique: true,
         },
-        ingredients: {
+        ingredients: [
+            {
             type: [String],
             required: true,
-        },
-        instructions: {
+            },
+        ],
+        instructions: [
+            {
             type: [String],
             required: true,
-        }
+            },
+        ],
     }
 )
 
